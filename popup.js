@@ -17,6 +17,9 @@ function getSelectionText() {
 
 
 
+
+
+
 document.onmouseup=function(){
 //console.log("1");
 var ul = getSelectionText();
@@ -24,7 +27,7 @@ var ul = getSelectionText();
 
 
 //var baseUrl = "http://www.omdbapi.com/?t=+ $(ul)&apikey=3e0bfca6 ";
-var baseurl = "http://www.omdbapi.com/?t=+$"+ ul + "&apikey=3e0bfca6";
+var baseurl = "https://www.omdbapi.com/?t=+$"+ ul + "&apikey=3e0bfca6";
 //console.log(baseurl);
 
 
@@ -38,7 +41,11 @@ $.ajax({
             cache: false,
             success: function(result) {
 
-                    alert(result.imdbRating);
+                   
+                     chrome.storage.sync.set({'value': result.imdbRating}, function(){});
+                      chrome.storage.sync.get('value',function(obj){console.log(obj.value)});
+                     
+                     
 
                     
 }
@@ -47,6 +54,10 @@ $.ajax({
 
 
 };
+
+      chrome.storage.sync.get('value',function(obj){
+        document.getElementById("rating").innerHTML="Rating = "+obj.value;
+        console.log(obj)});
 
 
 //var lis = ul.getElementsByTagName('li');
